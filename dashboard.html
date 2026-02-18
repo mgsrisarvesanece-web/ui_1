@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h2>Authority Dashboard</h2>
+
+<div class="video-container">
+    <img src="/video/CAM1" width="700">
+</div>
+
+<button onclick="triggerAlert()" class="alert-btn">Manual Alert</button>
+
+<h3>Live Alerts</h3>
+<div id="alerts"></div>
+
+<script>
+function fetchAlerts() {
+    fetch("/api/alerts")
+        .then(res => res.json())
+        .then(data => {
+            let html = "";
+            data.slice(0,5).forEach(a => {
+                html += `<div class="alert-item">
+                            <b>${a.Time}</b> - ${a.Message}
+                         </div>`;
+            });
+            document.getElementById("alerts").innerHTML = html;
+        });
+}
+
+function triggerAlert() {
+    fetch("/manual_alert", { method: "POST" })
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === "success") {
+                alert("Manual alert sent!");
+                fetchAlerts();
+            }
+        });
+}
+
+setInterval(fetchAlerts, 3000);
+fetchAlerts();
+</script>
+
+{% endblock %}

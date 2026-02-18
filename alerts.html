@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block content %}
+<h2>All Alerts</h2>
+<div id="alerts"></div>
+
+<script>
+function loadAlerts() {
+    fetch("/api/alerts")
+        .then(res => res.json())
+        .then(data => {
+            let html = "";
+            data.forEach(a => {
+                html += `<div class="alert-item">
+                            <b>${a.Time}</b> - ${a.Message}
+                         </div>`;
+            });
+            document.getElementById("alerts").innerHTML = html;
+        });
+}
+setInterval(loadAlerts, 3000);
+loadAlerts();
+</script>
+{% endblock %}

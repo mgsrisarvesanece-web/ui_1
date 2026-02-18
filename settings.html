@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h1>⚙ System Settings</h1>
+
+<form method="POST">
+    <label>Telegram Bot Token:</label><br>
+    <input type="text" name="bot_token" value="{{ bot_token }}"><br><br>
+
+    <label>Telegram Chat ID:</label><br>
+    <input type="text" name="chat_id" value="{{ chat_id }}"><br><br>
+
+    <button type="submit" class="btn-primary">Save Settings</button>
+</form>
+
+<hr>
+
+<h3>System Info</h3>
+<ul>
+    <li>Camera: CAM1</li>
+    <li>Logging Interval: 20 seconds</li>
+    <li>Auto Alert Interval: 30 seconds</li>
+</ul>
+
+{% endblock %}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>PRISM SAFE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="main-layout">
+
+    {% if session.get("role") %}
+    <div class="sidebar">
+        <h2>PRISM SAFE</h2>
+
+        {% if session.get("role") == "authority" %}
+            <a href="/authority">📡 Authority Dashboard</a>
+            <a href="/alerts">🚨 Live Alerts</a>
+            <a href="/logs">📋 System Logs</a>
+            <a href="/settings">⚙️ Settings</a>
+        {% endif %}
+
+        {% if session.get("role") == "user" %}
+            <a href="/user">🏠 Crowd Check</a>
+        {% endif %}
+
+        <a href="/logout" class="logout">Sign Out</a>
+    </div>
+    {% endif %}
+
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+
+</div>
+
+</body>
+</html>

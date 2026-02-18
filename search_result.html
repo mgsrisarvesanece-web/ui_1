@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h1>📍 Location Result</h1>
+
+<p><strong>Location:</strong> {{ location }}</p>
+<p><strong>Risk Level:</strong> {{ risk }}</p>
+
+{% if risk == "HIGH" %}
+    <p class="risk-danger">⚠ High Crowd Risk</p>
+{% elif risk == "MEDIUM" %}
+    <p class="risk-caution">⚠ Moderate Crowd</p>
+{% else %}
+    <p class="risk-safe">✔ Safe to Visit</p>
+{% endif %}
+
+<a href="javascript:history.back()" class="btn-primary">Go Back</a>
+
+{% endblock %}

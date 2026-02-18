@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PRISM-SAFE Surveillance</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header>
+    <h1>PRISM-SAFE Surveillance Control Panel</h1>
+</header>
+
+<div class="dashboard">
+
+    {% for cam in cameras %}
+    <div class="camera-card">
+        <div class="camera-header">
+            <h2>{{ cam.id }}</h2>
+            <span class="status-dot online"></span>
+        </div>
+
+        <img src="/video/{{ cam.id }}" class="video-feed">
+
+        <div class="stats" id="stats-{{ cam.id }}"></div>
+    </div>
+    {% endfor %}
+
+</div>
+
+<div class="alert-panel">
+    <h2>System Alerts</h2>
+    <div id="alert-box">No alerts</div>
+</div>
+
+<script>
+async function updateStats() {
+    const response = await fetch('/stats');
+    const data = await response.json();
+
+    let alertText = "No alerts";
+
+    for (const cam in data) {
+        document.getElementById("stats-" + cam).innerHTML =
+            `Left: ${data[cam].left_sri} (${data[cam].left_status})<br>
+             Right: ${data[cam].right_sri} (${data[cam].right_status})`;
+
+        if (data[cam].left_status === "CRITICAL" || data[cam].right_status === "CRITICAL") {
+            alertText = `⚠ CRITICAL RISK in ${cam}`;
+        }
+    }
+
+    document.getElementById("alert-box").innerText = alertText;
+}
+
+setInterval(updateStats, 1000);
+</script>
+
+</body>
+</html>
